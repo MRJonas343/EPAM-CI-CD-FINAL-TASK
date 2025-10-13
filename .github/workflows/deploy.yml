@@ -40,6 +40,7 @@ jobs:
         run: bun test
 
       - name: Semantic Release
+        id: semantic-release
         uses: cycjimmy/semantic-release-action@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -66,11 +67,11 @@ jobs:
           docker login --username AWS --password-stdin ${{ secrets.REGISTRY }}
 
       - name: Docker build, tag and push image to ECR
-        env:
-          VERSION: ${{ steps.semantic-release.outputs.new_release_version }}
         run: |
+          VERSION=${{ steps.semantic-release.outputs.new_release_version }}
           IMAGE_LATEST="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:latest"
           IMAGE_VERSION="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
+          echo "Building images $IMAGE_LATEST and $IMAGE_VERSION"
           docker build -t "$IMAGE_LATEST" -t "$IMAGE_VERSION" .
           docker push "$IMAGE_LATEST"
           docker push "$IMAGE_VERSION"
