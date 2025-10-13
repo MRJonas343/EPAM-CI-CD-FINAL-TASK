@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.1](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.2.0...v0.2.1) (2025-10-13)
+
+### Bug Fixes
+
+* Update Dockerfile ([e89da0d](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/commit/e89da0d981524bcdc97c6931eeacf13898c49aac))
+
 ## [0.2.0](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.1.6...v0.2.0) (2025-10-13)
 
 ### Features
