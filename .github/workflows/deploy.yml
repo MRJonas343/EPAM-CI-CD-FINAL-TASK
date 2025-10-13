@@ -71,6 +71,6 @@ jobs:
         run: |
           IMAGE_LATEST="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:latest"
           IMAGE_VERSION="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
-          docker build -t $IMAGE_LATEST -t $IMAGE_VERSION .
-          docker push $IMAGE_LATEST
-          docker push $IMAGE_VERSION
+          docker build -t "$IMAGE_LATEST" -t "$IMAGE_VERSION" .
+          docker push "$IMAGE_LATEST"
+          docker push "$IMAGE_VERSION"
