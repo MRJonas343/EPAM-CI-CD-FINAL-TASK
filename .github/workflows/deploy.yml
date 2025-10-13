@@ -8,8 +8,8 @@ on:
 
 env:
   REGISTRY: ${{ secrets.REGISTRY }}
-  NAMESPACE: ${{ secrets.NAMESPACE }}
-  CI_APP: ${{ secrets.CI_APP }}
+  NAMESPACE:  epam-final-task
+  CI_APP: bun-app
   AWS_REGION: us-east-1
 
 jobs:
@@ -53,9 +53,6 @@ jobs:
       - name: Build app
         run: bun run build
 
-      - name: Build Docker image
-        run: docker build -t ${{ env.CI_APP }}:latest .
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
@@ -68,15 +65,12 @@ jobs:
           aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
           docker login --username AWS --password-stdin ${{ env.REGISTRY }}
 
-      - name: Tag and push image to ECR
+      - name: Docker build, tag and push image to ECR
         env:
           VERSION: ${{ steps.semantic-release.outputs.new_release_version }}
         run: |
           IMAGE_LATEST="${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:latest"
           IMAGE_VERSION="${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
-          echo "Pushing image: $IMAGE_LATEST"
-          docker tag ${{ env.CI_APP }}:latest $IMAGE_LATEST
+          docker build -t $IMAGE_LATEST -t $IMAGE_VERSION .
           docker push $IMAGE_LATEST
-          echo "Pushing image: $IMAGE_VERSION"
-          docker tag ${{ env.CI_APP }}:latest $IMAGE_VERSION
           docker push $IMAGE_VERSION
