@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.0](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.1.6...v0.2.0) (2025-10-13)
+
+### Features
+
+* Testing feature ([a137425](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/commit/a137425116016b788e8c92e071a4a473eee78427))
+
 ## [0.1.6](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.1.5...v0.1.6) (2025-10-13)
 
 ### Bug Fixes
