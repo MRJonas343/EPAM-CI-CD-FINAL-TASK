@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.3](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.1.2...v0.1.3) (2025-10-13)
+
+### Bug Fixes
+
+* update pipeline ([17b5ae7](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/commit/17b5ae708aa3a9959aa448d6badd44cfcea9fd42))
+
 ## [0.1.2](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.1.1...v0.1.2) (2025-10-13)
 
 ### Bug Fixes
