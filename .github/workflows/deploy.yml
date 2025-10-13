@@ -7,7 +7,6 @@ on:
     - cron: "0 2 * * *" # 2AM UTC daily
 
 env:
-  REGISTRY: ${{ secrets.REGISTRY }}
   NAMESPACE:  epam-final-task
   CI_APP: bun-app
   AWS_REGION: us-east-1
@@ -64,14 +63,14 @@ jobs:
       - name: Login to ECR
         run: |
           aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
-          docker login --username AWS --password-stdin ${{ env.REGISTRY }}
+          docker login --username AWS --password-stdin ${{ secrets.REGISTRY }}
 
       - name: Docker build, tag and push image to ECR
         env:
           VERSION: ${{ steps.semantic-release.outputs.new_release_version }}
         run: |
-          IMAGE_LATEST="${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:latest"
-          IMAGE_VERSION="${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
+          IMAGE_LATEST="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:latest"
+          IMAGE_VERSION="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
           docker build -t $IMAGE_LATEST -t $IMAGE_VERSION .
           docker push $IMAGE_LATEST
           docker push $IMAGE_VERSION
