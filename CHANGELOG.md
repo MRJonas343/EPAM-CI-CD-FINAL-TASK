@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.2](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.2.1...v0.2.2) (2025-10-13)
+
+### Bug Fixes
+
+* Not ignore bun.lock... ([c5936f9](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/commit/c5936f984e613018196ea88fd306853f172a9941))
+
 ## [0.2.1](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.2.0...v0.2.1) (2025-10-13)
 
 ### Bug Fixes
