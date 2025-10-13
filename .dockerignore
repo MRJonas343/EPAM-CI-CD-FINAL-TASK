@@ -1,15 +1,28 @@
+# Node / Bun
 node_modules
+bun.lock
+package-lock.json
 Dockerfile*
 docker-compose*
 .dockerignore
+
+# Git / IDE
 .git
 .gitignore
+.vscode
+.idea
+
+# Docs / configs / scripts
 README.md
 LICENSE
-.vscode
 Makefile
-helm-charts
 .env
 .editorconfig
-.idea
+helm-charts
+eslint.config.ts
+CHANGELOG.md
+.releaserc.json
+
+# Coverage / build outputs
 coverage*
+dist*
