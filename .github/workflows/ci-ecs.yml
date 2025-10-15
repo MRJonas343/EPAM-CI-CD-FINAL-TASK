@@ -75,5 +75,13 @@ jobs:
           docker build -t "$IMAGE_LATEST" -t "$IMAGE_VERSION" .
           docker push "$IMAGE_LATEST"
           docker push "$IMAGE_VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "::set-output name=VERSION::$VERSION"
+
+      - name: Create version file to pass to CD workflow
+        run: |
+          echo "${{ steps.semantic-release.outputs.new_release_version }}" > version.txt
+
+      - name: Upload version artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: version-artifact
+          path: version.txt

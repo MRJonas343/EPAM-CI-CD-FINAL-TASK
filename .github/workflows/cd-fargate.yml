@@ -31,6 +31,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Download version artifact from CI
+        uses: actions/download-artifact@v3
+        with:
+          name: version-artifact
+          path: ./artifact
+
+      - name: Read version
+        id: read_version
+        run: |
+          VERSION=$(cat ./artifact/version.txt)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Version read from artifact: $VERSION"
+
       - name: Get current task definition
         run: |
           aws ecs describe-task-definition \
@@ -39,7 +52,6 @@ jobs:
 
       - name: Build new task JSON (replace image)
         run: |
-          VERSION=${{ github.event.workflow_run.outputs.VERSION }}
           IMAGE_URI="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
           echo "Using image: $IMAGE_URI"
           jq --arg IMAGE "$IMAGE_URI" '.containerDefinitions[0].image = $IMAGE' ecs/ecs-task-fargate.json > new-task.json
