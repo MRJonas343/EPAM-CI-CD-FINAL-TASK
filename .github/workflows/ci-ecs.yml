@@ -75,3 +75,5 @@ jobs:
           docker build -t "$IMAGE_LATEST" -t "$IMAGE_VERSION" .
           docker push "$IMAGE_LATEST"
           docker push "$IMAGE_VERSION"
+          # Export IMAGE_URI para workflow_run
+          echo "IMAGE_URI=$IMAGE_LATEST" >> $GITHUB_ENV
