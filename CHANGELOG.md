@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.0](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.2.2...v0.3.0) (2025-10-15)
+
+### Features
+
+* add-cd-workflow ([461d459](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/commit/461d4594fb7ec2c5abc7895fc35272bf331af4b5))
+
 ## [0.2.2](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.2.1...v0.2.2) (2025-10-13)
 
 ### Bug Fixes
