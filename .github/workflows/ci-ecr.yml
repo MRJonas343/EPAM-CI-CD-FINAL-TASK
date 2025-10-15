@@ -75,13 +75,3 @@ jobs:
           docker build -t "$IMAGE_LATEST" -t "$IMAGE_VERSION" .
           docker push "$IMAGE_LATEST"
           docker push "$IMAGE_VERSION"
-
-      - name: Guardar versión en archivo
-        run: echo "${{ steps.semantic-release.outputs.new_release_version }}" > version.txt
-
-      - name: Subir artefacto con la versión
-        uses: actions/upload-artifact@v4
-        with:
-          name: version-artifact
-          path: version.txt
-          retention-days: 7

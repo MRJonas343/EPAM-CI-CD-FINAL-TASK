@@ -1,0 +1,57 @@
+name: CD to EC2
+
+on:
+  workflow_run:
+    workflows: ["CI/CD Pipeline to ECR"]
+    types:
+      - completed
+
+env:
+  AWS_REGION: us-east-1
+  NAMESPACE: epam-final-task
+  CI_APP: bun-app
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Get latest image tag from ECR
+        id: latest
+        run: |
+          TAG=$(aws ecr describe-images \
+            --repository-name "${{ env.NAMESPACE }}/${{ env.CI_APP }}" \
+            --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' \
+            --output text)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Connect to EC2 and deploy
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "Deploying version: ${{ steps.latest.outputs.tag }}"
+
+            aws ecr get-login-password --region ${{ env.AWS_REGION }} \
+              | docker login --username AWS --password-stdin ${{ secrets.REGISTRY }}
+
+            docker stop ${{ env.CI_APP }} || true
+            docker rm ${{ env.CI_APP }} || true
+
+            docker pull ${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${{ steps.latest.outputs.tag }}
+
+            docker run -d --name ${{ env.CI_APP }} \
+              -p 3000:3000 \
+              ${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${{ steps.latest.outputs.tag }}
+
+            echo "Deployment successful"
