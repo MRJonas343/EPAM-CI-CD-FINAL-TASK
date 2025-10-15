@@ -3,8 +3,6 @@ name: CI/CD Pipeline to ECR
 on:
   push:
     branches: [ "main" ]
-  schedule:
-    - cron: "0 2 * * *" # 2AM UTC daily
 
 env:
   NAMESPACE:  epam-final-task

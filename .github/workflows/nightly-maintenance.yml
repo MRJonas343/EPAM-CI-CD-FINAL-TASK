@@ -1,0 +1,65 @@
+name: Nightly Maintenance
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # 3AM UTC daily
+
+env:
+  AWS_REGION: us-east-1
+  NAMESPACE: epam-final-task
+  CI_APP: bun-app
+  EC2_PUBLIC_IP: ${{ secrets.EC2_PUBLIC_IP }}
+  REGISTRY: ${{ secrets.REGISTRY }}
+
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Run dependency audit
+        run: |
+          echo "Running Bun audit..."
+          bun install --frozen-lockfile
+          bun audit || echo "Audit found issues (non-blocking)."
+
+      - name: Smoke test application
+        run: |
+          echo "Running health check on EC2 app..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://${{ env.EC2_PUBLIC_IP }}:3000/api/health)
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "Smoke test failed — expected 200, got $RESPONSE"
+            exit 1
+          fi
+          echo "App is healthy (HTTP 200)"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Cleanup old ECR images (keep last 5)
+        run: |
+          REPO="${{ env.NAMESPACE }}/${{ env.CI_APP }}"
+          echo "Cleaning up old images from $REPO..."
+          IMAGE_IDS=$(aws ecr describe-images \
+            --repository-name "$REPO" \
+            --query 'sort_by(imageDetails,& imagePushedAt)[0:-5].imageDigest' \
+            --output text)
+          if [ -z "$IMAGE_IDS" ]; then
+            echo "No old images to delete."
+          else
+            for ID in $IMAGE_IDS; do
+              echo "Deleting old image digest: $ID"
+              aws ecr batch-delete-image --repository-name "$REPO" --image-ids imageDigest=$ID
+            done
+          fi
+          echo "Cleanup complete."

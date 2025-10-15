@@ -25,3 +25,4 @@ CHANGELOG.md
 # Coverage / build outputs
 coverage*
 dist*
+test

@@ -5,26 +5,16 @@ const server = serve({
   routes: {
     "/*": index,
 
-    "/api/hello": {
+    "/api/health": {
       async GET() {
-        return Response.json({
-          message: "Hello, world!",
-          method: "GET",
-        });
+        return Response.json(
+          {
+            message: "OK",
+            method: "GET",
+          },
+          { status: 200 }
+        );
       },
-      async PUT() {
-        return Response.json({
-          message: "Hello, world!",
-          method: "PUT",
-        });
-      },
-    },
-
-    "/api/hello/:name": async (req) => {
-      const name = req.params.name;
-      return Response.json({
-        message: `Hello, ${name}!`,
-      });
     },
   },
 
