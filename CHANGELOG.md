@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.0](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.4.1...v0.5.0) (2025-10-15)
+
+### Features
+
+* add nightly-maintenance workflow1.0 ([64f572f](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/commit/64f572f1544e8000b1ed5364af1da636dc74dd03))
+
 ## [0.4.1](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.4.0...v0.4.1) (2025-10-15)
 
 ### Bug Fixes
