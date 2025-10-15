@@ -76,12 +76,12 @@ jobs:
           docker push "$IMAGE_LATEST"
           docker push "$IMAGE_VERSION"
 
-      - name: Create version file to pass to CD workflow
-        run: |
-          echo "${{ steps.semantic-release.outputs.new_release_version }}" > version.txt
+      - name: Guardar versión en archivo
+        run: echo "${{ steps.semantic-release.outputs.new_release_version }}" > version.txt
 
-      - name: Upload version artifact
-        uses: actions/upload-artifact@v3
+      - name: Subir artefacto con la versión
+        uses: actions/upload-artifact@v4
         with:
           name: version-artifact
           path: version.txt
+          retention-days: 7

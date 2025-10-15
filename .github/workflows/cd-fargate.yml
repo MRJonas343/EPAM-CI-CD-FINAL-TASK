@@ -31,18 +31,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Download version artifact from CI
-        uses: actions/download-artifact@v3
+      - name: Descargar artefacto con la versión
+        uses: actions/download-artifact@v4
         with:
           name: version-artifact
-          path: ./artifact
 
-      - name: Read version
-        id: read_version
+      - name: Leer versión desde el archivo
         run: |
-          VERSION=$(cat ./artifact/version.txt)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Version read from artifact: $VERSION"
+          VERSION=$(cat version.txt)
+          IMAGE_URI="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
+          echo "Usando imagen: $IMAGE_URI"
+
 
       - name: Get current task definition
         run: |
