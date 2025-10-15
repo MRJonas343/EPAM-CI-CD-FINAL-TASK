@@ -9,4 +9,4 @@ Commit convention
 - feat!: o BREAKING CHANGE: "commit-name" (1.0.1 → 2.0.0)
 
 
-Now lets test a feat
+Now lets test a featt
