@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.3.5...v0.4.0) (2025-10-15)
+
+### Features
+
+* add-aws-ec2 ([18d4536](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/commit/18d4536e5ef2567454bdfc0d75b779c45c064519))
+
 ## [0.3.5](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.3.4...v0.3.5) (2025-10-15)
 
 ### Bug Fixes
