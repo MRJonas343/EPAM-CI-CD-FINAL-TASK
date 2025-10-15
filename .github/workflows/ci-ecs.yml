@@ -72,7 +72,8 @@ jobs:
           IMAGE_LATEST="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:latest"
           IMAGE_VERSION="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
           echo "Building images $IMAGE_LATEST and $IMAGE_VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
           docker build -t "$IMAGE_LATEST" -t "$IMAGE_VERSION" .
           docker push "$IMAGE_LATEST"
           docker push "$IMAGE_VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "::set-output name=VERSION::$VERSION"

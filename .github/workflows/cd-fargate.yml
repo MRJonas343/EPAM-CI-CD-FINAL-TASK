@@ -39,9 +39,10 @@ jobs:
 
       - name: Build new task JSON (replace image)
         run: |
-          IMAGE_URI="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${{ github.event.workflow_run.outputs.VERSION }}"
+          VERSION=${{ github.event.workflow_run.outputs.VERSION }}
+          IMAGE_URI="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
           echo "Using image: $IMAGE_URI"
-          jq --arg IMAGE "$IMAGE_VERSION" '.containerDefinitions[0].image = $IMAGE' ecs/ecs-task-fargate.json > new-task.json
+          jq --arg IMAGE "$IMAGE_URI" '.containerDefinitions[0].image = $IMAGE' ecs/ecs-task-fargate.json > new-task.json
 
       - name: Register new task definition
         id: register
