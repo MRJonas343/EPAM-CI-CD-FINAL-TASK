@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.4](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.3.3...v0.3.4) (2025-10-15)
+
+### Bug Fixes
+
+* workflow cd-invalid4 ([532e292](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/commit/532e292f4ded0a1bd1111a036a82b4fbea998ddf))
+
 ## [0.3.3](https://github.com/MRJonas343/EPAM-CI-CD-FINAL-TASK/compare/v0.3.2...v0.3.3) (2025-10-15)
 
 ### Bug Fixes
