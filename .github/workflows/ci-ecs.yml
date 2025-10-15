@@ -72,8 +72,7 @@ jobs:
           IMAGE_LATEST="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:latest"
           IMAGE_VERSION="${{ secrets.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.CI_APP }}:${VERSION}"
           echo "Building images $IMAGE_LATEST and $IMAGE_VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
           docker build -t "$IMAGE_LATEST" -t "$IMAGE_VERSION" .
           docker push "$IMAGE_LATEST"
           docker push "$IMAGE_VERSION"
-          # Export IMAGE_URI para workflow_run
-          echo "IMAGE_URI=$IMAGE_LATEST" >> $GITHUB_ENV
