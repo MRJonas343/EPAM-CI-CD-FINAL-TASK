@@ -14,6 +14,7 @@ env:
   CONTAINER_NAME: bun-app
   NAMESPACE: epam-final-task
   CI_APP: bun-app
+  TASK_DEF_NAME: bun-app-task
 
 jobs:
   deploy:
@@ -33,7 +34,7 @@ jobs:
       - name: Get current task definition
         run: |
           aws ecs describe-task-definition \
-            --task-definition ${{ env.TASK_DEF_PATH%%.* }} \
+            --task-definition ${{ env.TASK_DEF_NAME }} \
             --query 'taskDefinition' > current-task.json || true
 
       - name: Build new task JSON (replace image)
