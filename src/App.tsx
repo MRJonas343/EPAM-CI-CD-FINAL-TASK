@@ -7,7 +7,7 @@ export function App() {
       <h1>Hello EPAM</h1>
       <p>Thanks for the course!</p>
       <p>it was fire 🔥</p>
-      <p>Version 1.0.2</p>
+      <p>Version 2.0.2</p>
     </div>
   );
 }
